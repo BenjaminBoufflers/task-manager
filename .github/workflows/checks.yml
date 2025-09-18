@@ -1,0 +1,51 @@
+---
+name: Checks
+
+on: [push]
+
+jobs:
+  lint:
+    name: Linting the code
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Restore pip cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/pip
+            ~/.local/lib/python3.11/site-packages
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.dev.txt') }}-${{ github.ref }}
+          restore-keys: |
+            ${{ runner.os }}-pip-${{ hashFiles('requirements.dev.txt')}}-
+            ${{ runner.os }}-pip-
+      - name: Install linters
+        run: pip install flake8 black
+      - name: Run flake8
+        run: flake8 src/
+      - name: Run black check
+        run: black --check src/
+  test:
+    name: Test the code
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Restore pip cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-cache
+      - name: Setup django
+        run: pip install django
+      - name: Run the tests
+        run: python manage.py test src/
