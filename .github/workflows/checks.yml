@@ -27,9 +27,9 @@ jobs:
       - name: Install requirements for linting
         run: pip install -r requirements.lint.txt
       - name: Run flake8
-        run: flake8
+        run: flake8 src/
       - name: Run black check
-        run: black --check
+        run: black --check src/
   test:
     name: Test the code
     runs-on: ubuntu-24.04
