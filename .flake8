@@ -1,0 +1,5 @@
+[flake8]
+ignore = E501
+exclude =
+	src/migrations,
+	src/__pycache__,
