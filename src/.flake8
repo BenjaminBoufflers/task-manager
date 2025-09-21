@@ -1,7 +1,0 @@
-[flake8]
-ignore = E501
-exclude =
-	migrations,
-	__pycache__,
-	manage.py,
-	core/settings.py
