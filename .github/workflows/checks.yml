@@ -53,4 +53,4 @@ jobs:
       - name: Install requirements
         run: pip install -r requirements.txt
       - name: Run the tests
-        run: src/python manage.py test
+        run: ./src/python manage.py test
